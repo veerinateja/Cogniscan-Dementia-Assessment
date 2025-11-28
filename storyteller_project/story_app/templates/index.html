@@ -1,0 +1,219 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="bg-gray-100 h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Cognitive Storyteller</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" rel="stylesheet" />
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-200 flex flex-col min-h-screen font-sans">
+    
+    <div class="gradient-bg"></div>
+    <header class="main-header">
+        <div class="header-content flex justify-between items-center">
+            <a href="/" class="logo">CogniScan.</a>
+            <nav class="hidden md:flex items-center gap-6">
+                <a href="/" class="text-slate-300 hover:text-emerald-400 transition-colors">Home</a>
+                <a href="/about" class="text-slate-300 hover:text-emerald-400 transition-colors">About</a>
+            </nav>
+            <div class="flex items-center">
+                <button id="theme-switcher" class="w-12 h-6 bg-slate-700 rounded-full flex items-center p-1 transition-colors">
+                    <div id="theme-indicator" class="w-5 h-5 bg-white rounded-full shadow-md transform transition-transform"></div>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="w-full max-w-4xl mx-auto relative z-10 p-4 flex-grow flex items-center">
+        <main class="w-full">
+        
+            <div id="view-start" class="view">
+                <div class="view-container text-center max-w-md mx-auto">
+                    <h1 class="text-4xl font-bold text-emerald-300">Cognitive Storyteller</h1>
+                    <p class="text-slate-400 mt-2 text-lg">Enter your details to begin the assessment (Max Score 31).</p>
+                    
+                    <div class="mt-8 space-y-4 text-left">
+                        
+                        <div>
+                            <label for="name-input" class="block text-slate-300 font-medium mb-2">1. Your Name:</label>
+                            <input type="text" id="name-input" class="w-full p-3 bg-slate-700/50 border-2 border-slate-600 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400 focus:outline-none transition" placeholder="Your Name">
+                        </div>
+                        
+                        <div>
+                            <label for="age-input" class="block text-slate-300 font-medium mb-2">2. Your Age (Required for Risk Analysis):</label>
+                            <input type="number" id="age-input" class="w-full p-3 bg-slate-700/50 border-2 border-slate-600 rounded-lg focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400 focus:outline-none transition" placeholder="e.g., 65" min="18" max="120">
+                        </div>
+
+                        <div>
+                            <p class="block text-slate-300 font-medium mb-3">3. Formal Education (12 or more years?):</p>
+                            <div class="flex gap-4">
+                                <button id="education-yes-btn" data-education="no-bonus" class="btn-secondary flex-1">Yes, 12+ years</button>
+                                <button id="education-no-btn" data-education="bonus" class="btn-secondary flex-1">No, less than 12 years</button>
+                            </div>
+                            <p id="education-status" class="text-sm mt-2 text-slate-400/80">Select one option. (Bonus point awarded for less than 12 years).</p>
+                        </div>
+
+                        <button id="start-story-button" class="btn-primary w-full mt-6" disabled>Start Storytelling</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-storytelling" class="view hidden">
+                 <div class="view-container">
+                    <div class="text-center space-y-2 mb-8">
+                        <h2 class="text-3xl font-bold text-emerald-300">Phase 1: Your Story</h2>
+                        <p class="text-lg text-slate-400">Tell me a detailed story about your **last birthday**.</p>
+                    </div>
+                    
+                    <div id="storyContainer" class="w-full bg-slate-800/60 p-6 rounded-xl border border-slate-700 h-40 overflow-y-auto">
+                        <p class="text-lg font-semibold text-emerald-300 mb-2">Transcription:</p>
+                        <p id="storyText" class="text-slate-300 italic">...Your transcribed story will appear here...</p>
+                    </div>
+
+                    <div class="w-full flex justify-center mt-6">
+                        <button id="recordButton" class="bg-indigo-600 text-white font-bold py-4 px-8 rounded-full shadow-lg hover:bg-indigo-700 transition-colors duration-200 focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-opacity-50 flex items-center space-x-2">
+                            <span id="micIcon" class="material-symbols-rounded text-3xl">mic</span>
+                            <span id="buttonText">Start Recording</span>
+                        </button>
+                    </div>
+
+                    <div id="loadingIndicator" class="hidden text-center flex-col items-center space-y-2 mt-4">
+                        <svg class="animate-spin h-8 w-8 text-emerald-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        <p class="text-sm text-slate-400">Transcribing and Generating Questions...</p>
+                    </div>
+
+                    <div id="transitionArea" class="hidden text-center mt-8 p-4 bg-slate-700/50 rounded-lg">
+                        <p class="text-lg font-semibold text-emerald-300 mb-4">Story Recorded and Questions Generated!</p>
+                        <button id="startGamesButton" class="btn-primary">Start Cognitive Games</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="view-game" class="view hidden">
+                <h2 id="game-title" class="text-2xl font-bold text-center text-white mb-4">Cognitive Game 1 of 4</h2>
+
+                <div id="game-animal-container" class="game-container hidden">
+                    <div class="view-container p-4 md:p-6 text-center">
+                        <p class="text-slate-300 font-medium mb-4">Please say the name of the animal in the image. (Max 3 points)</p>
+                        <div class="animal-quiz-card">
+                            <img id="animal-quiz-img" src="{% static 'img/lion.jpg' %}" alt="Animal" class="animal-quiz-img">
+                            <p id="animal-quiz-label" class="animal-quiz-label"></p>
+                        </div>
+                        <button id="animal-quiz-btn" class="btn-primary mt-6">
+                            <span class="material-symbols-rounded text-2xl mr-2">mic</span>
+                            Speak Animal Name
+                        </button>
+                        <div id="animal-quiz-feedback" class="animal-quiz-feedback"></div>
+                    </div>
+                </div>
+
+                <div id="game-sequence-container" class="game-container hidden">
+                    <div class="view-container p-4 md:p-6 text-center">
+                        <h3 class="text-xl font-bold text-white">Memorize the Sequence</h3>
+                        <p class="text-slate-400 mt-2 mb-4">A sequence of 5 random digits will appear. Enter them in the correct order. (Max 4 points)</p>
+                        <div id="sequence-display" class="sequence-display mono">—</div>
+                        <button id="sequence-start-btn" class="btn-primary mt-4">Start</button>
+                        <div class="mt-6">
+                            <label for="sequence-answer" class="block text-left text-slate-300 font-medium mb-2">Enter the 5 digits:</label>
+                            <input id="sequence-answer" type="text" placeholder="e.g. 31904" disabled class="sequence-input mono">
+                        </div>
+                        <button id="sequence-check-btn" class="btn-primary mt-4" disabled>Check</button>
+                        <div id="sequence-result" class="sequence-result" style="display:none;"></div>
+                    </div>
+                </div>
+
+                <div id="game-dots-container" class="game-container hidden">
+                    <div class="view-container p-4 md:p-6">
+                        <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+                            <p class="text-slate-300 font-medium">Connect the dots in ascending order (1 → 8). (Max 5 points)</p>
+                            <div class="flex items-center gap-4 text-sm font-semibold">
+                                <p class="text-slate-400">Time: <span id="dots-time" class="text-emerald-300">0.0s</span></p>
+                                <p class="text-slate-400">Accuracy: <span id="dots-accuracy" class="text-emerald-300">100%</span></p>
+                            </div>
+                        </div>
+                        <div class="canvas-wrap">
+                            <canvas id="dots-board"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="game-memory-container" class="game-container hidden">
+                     <div class="view-container p-4 md:p-6">
+                        <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+                             <p class="text-slate-300 font-medium">Match all the pairs of icons. (Max 6 points)</p>
+                             <p class="text-sm font-semibold text-slate-400">Errors: <span id="memory-errors" class="text-emerald-300">0</span></p>
+                        </div>
+                        <div id="memory-grid-container" class="memory-grid"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="view-quiz" class="view hidden">
+                <div class="view-container">
+                    <h2 class="text-3xl font-bold text-emerald-300 mb-4">Phase 3: Story Recall Quiz</h2>
+                    <p class="text-slate-400 mb-6 text-center">Answer the following questions using **only** the details from the story you recorded earlier. (Max 12 points)</p>
+                    
+                    <div id="questionsContainer" class="w-full space-y-4">
+                        <div id="questionsList" class="space-y-4 text-slate-300">
+                            </div>
+                    </div>
+                    
+                    <div id="quizCompletion" class="hidden text-center mt-8">
+                        <p class="text-lg font-semibold text-emerald-300 mb-4">Quiz Complete! Ready for final score.</p>
+                        <button id="showResultsButton" class="btn-primary">View Final Analysis</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="view-results" class="view hidden">
+                <div class="view-container">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-bold text-white">Cognitive Analysis Complete</h2>
+                        <p class="text-lg text-slate-300">Hello, <strong id="result-user-name">User</strong>! Here is your assessment summary:</p>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="md:col-span-1 score-breakdown-card flex flex-col items-center justify-center text-center p-6">
+                             <span class="text-7xl font-bold text-emerald-300" id="final-total-score">0.0</span>
+                             <span class="text-2xl font-medium text-emerald-400/80" id="final-max-score">/ 31</span>
+                            <p id="risk-level-display" class="text-xl font-medium mt-4 text-emerald-400">Risk Level Display</p>
+                        </div>
+
+                        <div class="md:col-span-2 score-breakdown-card text-left p-6">
+                             <h3 class="text-xl font-bold text-slate-200 mb-4">Score Breakdown:</h3>
+                             <ul id="score-breakdown-list" class="space-y-3">
+                                 </ul>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-10 no-print">
+                        <button id="print-results-button" class="btn-secondary">Print Results</button>
+                        <button id="start-over-button" class="btn-primary">Start New Assessment</button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/api.js' %}"></script>
+    <script src="{% static 'js/game-dots.js' %}"></script>
+    <script src="{% static 'js/game-memory.js' %}"></script>
+    <script src="{% static 'js/game-animal.js' %}"></script>
+    <script src="{% static 'js/game-sequence.js' %}"></script>
+</body>
+</html>

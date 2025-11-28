@@ -1,0 +1,373 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+/* ===== Animated Gradient Background ===== */
+.gradient-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 10% 20%, hsl(150, 50%, 20%), transparent 50%),
+        radial-gradient(circle at 80% 90%, hsl(160, 60%, 15%), transparent 50%),
+        radial-gradient(circle at 50% 50%, hsl(170, 70%, 10%), transparent 40%);
+    background-color: hsl(225, 20%, 10%);
+    z-index: 0;
+    animation: move-gradient 30s ease-in-out infinite alternate;
+}
+
+@keyframes move-gradient {
+    from {
+        transform: translate(0, 0) scale(1);
+    }
+    to {
+        transform: translate(20px, -40px) scale(1.2);
+    }
+}
+
+/* ===== Navigation Bar ===== */
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 50;
+    padding: 1rem;
+    background: hsla(220, 25%, 15%, 0.5);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid hsla(220, 25%, 35%, 0.5);
+}
+
+.header-content {
+    max-width: 64rem;
+    /* Aligns with page-content max-width */
+    margin: 0 auto;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #a7f3d0;
+}
+
+/* ===== Main Page Content Wrapper ===== */
+.page-content {
+    width: 100%;
+    max-width: 64rem;
+    /* max-w-4xl from HTML */
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+    padding: 1rem;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    padding-top: 5rem;
+    /* This creates the gap below the navbar */
+}
+
+/* ===== General UI Components ===== */
+.view-container {
+    background-color: hsla(220, 25%, 15%, 0.6);
+    backdrop-filter: blur(20px);
+    border: 1px solid hsla(220, 25%, 35%, 0.5);
+    padding: 1.5rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+@media (min-width: 768px) {
+    .view-container {
+        padding: 2.5rem;
+    }
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+@media (min-width: 640px) {
+    .btn-primary,
+    .btn-secondary {
+        padding: 0.75rem 1.5rem;
+    }
+}
+
+.btn-primary {
+    background-color: #34d399;
+    color: #064e3b;
+    box-shadow: 0 2px 10px rgba(52, 211, 153, 0.2);
+}
+
+.btn-primary:hover {
+    background-color: #6ee7b7;
+    box-shadow: 0 4px 15px rgba(110, 231, 183, 0.3);
+    transform: translateY(-2px);
+}
+
+.btn-primary:disabled {
+    background-color: #3f3f46;
+    color: #71717a;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-secondary {
+    background-color: transparent;
+    border: 2px solid #52525b;
+    color: #d4d4d8;
+}
+
+.btn-secondary:hover {
+    border-color: #a1a1aa;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+/* ===== Speech UI ===== */
+.record-button {
+    width: 4rem;
+    height: 4rem;
+    background-color: #3f3f46;
+    border-radius: 9999px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.record-button:hover {
+    background-color: #52525b;
+}
+
+@keyframes pulse-ring {
+    0% {
+        box-shadow: 0 0 0 0 hsla(150, 56%, 59%, 0.7);
+    }
+    100% {
+        box-shadow: 0 0 0 25px hsla(150, 56%, 59%, 0);
+    }
+}
+
+.record-button.pulsing {
+    background-color: #f43f5e;
+    animation: pulse-ring 2s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.record-button.pulsing:hover {
+    background-color: #fb7185;
+}
+
+.status-indicator {
+    width: 0.75rem;
+    height: 0.75rem;
+    background-color: #71717a;
+    border-radius: 9999px;
+    transition: background-color 0.3s;
+}
+
+.status-indicator.recording {
+    background-color: #f43f5e;
+}
+
+.material-symbols-rounded {
+    font-variation-settings: 'FILL' 1,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 24;
+}
+
+/* ===== Results Page Layout ===== */
+.score-circle {
+    background-color: hsla(150, 56%, 59%, 0.1);
+    width: 12rem;
+    height: 12rem;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid hsla(150, 56%, 59%, 0.2);
+}
+
+.score-breakdown-card {
+    background: hsla(220, 25%, 20%, 0.5);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    border: 1px solid hsla(220, 25%, 35%, 0.5);
+}
+
+@media (min-width: 768px) {
+    .score-breakdown-card {
+        padding: 2rem;
+    }
+}
+
+/* ===== Game Styles ===== */
+:root {
+    --dot: #5eead4;
+    --dot-active: #a7f3d0;
+    --line-correct: #34d399;
+    --line-wrong: #fb7185;
+}
+
+.canvas-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid hsla(220, 25%, 35%, 0.5);
+    background: linear-gradient(180deg, hsl(225, 20%, 12%), hsl(225, 20%, 18%));
+    touch-action: manipulation;
+}
+
+#dots-board {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.memory-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    max-width: 400px;
+    margin: 1.5rem auto 0 auto;
+}
+
+.card {
+    cursor: pointer;
+    aspect-ratio: 1 / 1;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.card .front,
+.card .back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+}
+
+.card .front {
+    background-color: hsl(160, 60%, 60%);
+    border: 2px solid hsl(160, 60%, 70%);
+}
+
+.card .back {
+    background-color: hsla(220, 25%, 25%, 0.8);
+    transform: rotateY(180deg);
+    color: #34d399;
+    font-size: 2.5rem;
+}
+
+.card.flipped {
+    transform: rotateY(180deg);
+}
+
+.card.matched {
+    transform: rotateY(180deg);
+    cursor: default;
+}
+
+.card.matched .back {
+    background-color: #10b981;
+    color: #d1fae5;
+    transition: background-color 0.5s;
+}
+
+.animal-quiz-card {
+    background-color: hsl(225, 20%, 18%);
+    border: 1px solid hsla(220, 25%, 35%, 0.5);
+    border-radius: 1rem;
+    padding: 1rem;
+    max-width: 300px;
+    margin: 0 auto;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.animal-quiz-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 0.75rem;
+}
+
+.animal-quiz-label {
+    margin-top: 0.75rem;
+    font-weight: 500;
+    color: #a1a1aa;
+}
+
+#animal-quiz-btn {
+    display: inline-flex;
+    align-items: center;
+}
+
+.animal-quiz-feedback {
+    margin-top: 1.5rem;
+    font-size: 1.2rem;
+    min-height: 50px;
+}
+
+.sequence-display {
+    font-size: 48px;
+    letter-spacing: 8px;
+    text-align: center;
+    min-height: 64px;
+    background-color: hsl(225, 20%, 18%);
+    border: 1px solid hsla(220, 25%, 35%, 0.5);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    color: #a7f3d0;
+}
+
+.sequence-input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 0.5rem;
+    border: 1px solid #52525b;
+    background: #27272a;
+    color: #e4e4e7;
+    font-size: 16px;
+    text-align: center;
+    letter-spacing: 4px;
+}
+
+.sequence-input:focus {
+    outline: none;
+    border-color: #34d399;
+    box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.4);
+}
+
+.sequence-result {
+    margin-top: 1.5rem;
+    background: hsla(220, 25%, 25%, 0.8);
+    padding: 1rem;
+    border-radius: 0.75rem;
+    text-align: left;
+}
+
+.mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
